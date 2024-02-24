@@ -93,7 +93,7 @@ class Cine(object):
         #may want to put in a feature to search or open dialog
         #open cine file for reading binary
 		with open(filename,"rb") as cinefile:
-			print "Reading cine file "+str(filename)
+			print("Reading cine file "+str(filename))
 			filetype = struct.unpack('<2s',cinefile.read(2))[0]
 			cinefile.seek(0) #return to top of file for reading
 			assert filetype == 'CI', \
@@ -122,9 +122,9 @@ class Cine(object):
 		# check that setup is at correct Mark location
 		setupstring = struct.unpack("<2s",cinefile.read(2))[0]
 		if not (setupstring == 'ST'):
-			print setupstring
-			print "SETUP structure marker is incorrect."
-			print "File format may have changed or file may be damaged."
+			print(setupstring)
+			print("SETUP structure marker is incorrect.")
+			print("File format may have changed or file may be damaged.")
 		# get the length of the entire Setup structure
 		setup_length = struct.unpack("<H",cinefile.read(2))[0]
 		# skip the parameters from Mark up to ImWidth, since they are not  
@@ -482,7 +482,7 @@ class Cine(object):
 		# Read each image, skipping the annotations 
 		for frame in range(nframes):
 			if (frame !=0 and numpy.mod(frame,500) == 0):
-				print "Read " + str(frame) + " frames."
+				print("Read " + str(frame) + " frames.")
 			AnnotationSize = struct.unpack('<I',cinefile.read(4))[0]
 			# Size of AnnotationSize is 4, and  pixel array size takes up 
 			#     last 4 bytes of Annotation (first 4 already read)
@@ -498,7 +498,7 @@ class Cine(object):
 				                                  cinefile.read(ImageSize))
 			image_array[...,frame] = numpy.reshape(image_bits,(ny,nx))
 
-		print "Read " + str(nframes) + " frames."
+		print("Read " + str(nframes) + " frames.")
 		return image_array
 
 
@@ -532,7 +532,7 @@ class Cine(object):
 		try:   
 			f = tables.openFile(filepath,'w')    
 		except IOError: 
-			print "File already exists or unable to create file."  
+			print("File already exists or unable to create file.")
 			return 
 		try:
 			# try writing data, close file on fail
@@ -559,11 +559,11 @@ class Cine(object):
 			if hasattr(self,"images"):
 				f.createArray(f.root,"images",self.images)
 			f.close()
-			print "Cine file saved succesfully in HDF5 format."
+			print("Cine file saved succesfully in HDF5 format.")
 		except:
 			f.close()
-			print traceback.format_exc()
-			print "Saving to h5 file has failed."
+			print(traceback.format_exc())
+			print("Saving to h5 file has failed.")
 
 def main(filename):
 	"""
@@ -579,8 +579,8 @@ def main(filename):
 		mov.save_hdf5(filepath=save_name)
 		return 1
 	else:
-		print "File extension '%s' not recognized."%filename.rsplit('.',1)[1]
-		print "Current version only converts raw '.cine' files."
+		print("File extension '%s' not recognized."%filename.rsplit('.',1)[1])
+		print("Current version only converts raw '.cine' files.")
 		return 0
 
 
@@ -589,5 +589,5 @@ if __name__ == "__main__":
 		filename = sys.argv[1]
 		main(filename)
 	except KeyboardInterrupt:
-		print >> sys.stderr, '\nExiting by user request.\n'
+		print(>> sys.stderr, '\nExiting by user request.\n')
 		sys.exit(0)
