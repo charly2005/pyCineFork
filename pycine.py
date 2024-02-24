@@ -586,8 +586,8 @@ def main(filename):
 
 if __name__ == "__main__":
 	try:
-		filename = sys.argv[1]
+		filename = sys.argv[0]
 		main(filename)
 	except KeyboardInterrupt:
-		print(>> sys.stderr, '\nExiting by user request.\n')
+		print('\nExiting by user request.\n', file = sys.stderr)
 		sys.exit(0)
